@@ -13,8 +13,8 @@ with open('C:\\Users\\mohammed ansar ur ra\\renewable_energy_project\\models\\en
     model = pickle.load(f)
 
 def send_email_alert(to_email, predicted_value, threshold):
-    from_email = 'thelectricity76@gmail.com'
-    from_password = 'uboj xbwt hwle knyz'
+    from_email = 'your email'
+    from_password = 'your app specific password'
     
     subject = "Energy Consumption Alert"
     body = f"Your predicted energy consumption is {predicted_value:.2f} MW, which exceeds your set threshold of {threshold:.2f} MW."
