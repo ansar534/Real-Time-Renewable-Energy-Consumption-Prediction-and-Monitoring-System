@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Visualizations</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="company-name">
+        <h1>17thelectricity</h1>
+    </div>
+
+    <div class="header">
+        <a href="/">Home</a>
+        <a href="/visualizations">Visualizations</a>
+        <a href="/predict">Prediction</a>
+        <a href="/savings">Savings Calculator</a>
+    </div>
+
+    <div class="container">
+        <h1>Energy Visualizations</h1>
+
+        <div class="visualization">
+            <h2>Energy Consumption Over Time</h2>
+            <img src="{{ url_for('static', filename='plots/energy_consumption_over_time.png') }}" alt="Energy Consumption Over Time">
+            <p>This graph shows the trend of energy consumption over a specified period. By analyzing this data, we can identify patterns such as peak usage times and seasonal variations in energy demand.</p>
+        </div>
+
+        <div class="visualization">
+            <h2>Contribution of Each Energy Source</h2>
+            <img src="{{ url_for('static', filename='plots/energy_sources_contribution.png') }}" alt="Energy Sources Contribution">
+            <p>This chart illustrates the proportion of energy generated from different sources such as solar, wind, and hydro. Understanding the contribution of each source helps in optimizing energy mix and improving sustainability.</p>
+        </div>
+
+        <div class="visualization">
+            <h2>Correlation Heatmap</h2>
+            <img src="{{ url_for('static', filename='plots/correlation_heatmap.png') }}" alt="Correlation Heatmap">
+            <p>The correlation heatmap displays the relationships between various factors affecting energy consumption, such as temperature, humidity, and wind speed. Darker colors indicate stronger correlations, which can be used to predict energy demand more accurately.</p>
+        </div>
+
+        <div class="visualization">
+            <h2>Load vs Temperature</h2>
+            <img src="{{ url_for('static', filename='plots/load_vs_temperature.png') }}" alt="Load vs Temperature">
+            <p>This graph demonstrates the relationship between energy load and temperature. Typically, energy consumption increases with temperature due to the use of cooling systems. This visualization helps in understanding how temperature variations impact energy demand.</p>
+        </div>
+    </div>
+</body>
+</html>

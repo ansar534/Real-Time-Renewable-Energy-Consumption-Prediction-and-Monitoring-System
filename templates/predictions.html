@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Energy Consumption Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="company-name">
+        <h1>17thelectricity</h1>
+    </div>
+
+    <div class="header">
+        <a href="/">Home</a>
+        <a href="/visualizations">Visualizations</a>
+        <a href="/predict">Prediction</a>
+        <a href="/savings">Savings Calculator</a>
+    </div>
+<div class="container">
+    <h1>Energy Consumption Prediction</h1>
+    <form method="POST" action="/predict">
+        <div class="form-group">
+            <label for="temperature">Temperature (°C):</label>
+            <input type="number" step="0.1" id="temperature" name="temperature" required>
+        </div>
+        <div class="form-group">
+            <label for="wind_speed">Wind Speed (m/s):</label>
+            <input type="number" step="0.1" id="wind_speed" name="wind_speed" required>
+        </div>
+        <div class="form-group">
+            <label for="humidity">Humidity (%):</label>
+            <input type="number" step="0.1" id="humidity" name="humidity" required>
+        </div>
+        <div class="form-group">
+            <label for="pressure">Pressure (hPa):</label>
+            <input type="number" step="0.1" id="pressure" name="pressure" required>
+        </div>
+        <div class="form-group">
+            <label for="threshold">Set Alert Threshold (MW):</label>
+            <input type="number" step="0.1" id="threshold" name="threshold" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email for Alerts:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <button type="submit">Predict and Set Alert</button>
+    </form>
+    {% if prediction is not none %}
+    <div class="result">
+        <h2>Prediction Results</h2>
+        <p>Predicted Energy Consumption: {{ prediction }} MW</p>
+        <p>Input Values:</p>
+        <ul>
+            <li>Temperature: {{ temperature }} °C</li>
+            <li>Wind Speed: {{ wind_speed }} m/s</li>
+            <li>Humidity: {{ humidity }} %</li>
+            <li>Pressure: {{ pressure }} hPa</li>
+            <li>Alert Threshold: {{ threshold }} MW</li>
+            <li>Email for Alerts: {{ email }}</li>
+        </ul>
+    </div>
+    {% endif %}
+    <button onclick="window.location.href='/'">Back to Home</button>
+</div>
+</body>
+</html>

@@ -1,0 +1,117 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Styling */
+.header {
+    display: flex;
+    justify-content: space-around;
+    background-color: #333;
+    padding: 10px;
+}
+
+.header a {
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+}
+
+.header a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* Form Styles */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input, 
+.form-group select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Results Section */
+.result, .results {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #e7f3fe;
+    border-left: 6px solid #2196F3;
+}
+
+.result h2, .results h2 {
+    margin-top: 0;
+}
+
+/* Visualization Section */
+.visualization {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.visualization h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.visualization img {
+    max-width: 100%;
+    height: auto;
+    border: 2px solid #333;
+    margin-bottom: 10px;
+}
+
+.visualization p {
+    font-size: 16px;
+    color: #555;
+}
+
+/* Company name styling */
+.company-name h1 {
+    font-size: 36px;
+    color: #333;
+    text-align: center;
+    margin-top: 20px;
+}

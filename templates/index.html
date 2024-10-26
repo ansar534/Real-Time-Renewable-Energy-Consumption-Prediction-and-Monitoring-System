@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>17thelectricity Dashboard</title>
+    <!-- Include Leaflet CSS for the map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <!-- Include custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+    <!-- Company Name Branding -->
+    <div class="company-name">
+        <h1>17thelectricity</h1>
+    </div>
+
+    <!-- Header with Horizontal Layout -->
+    <div class="header">
+        <a href="/">Home</a>
+        <a href="/visualizations">Visualizations</a>
+        <a href="/predictions">Predictions</a>
+        <a href="/savings">Savings Calculator</a>
+    </div>
+
+    <!-- Map for Interactive Energy Source Locations -->
+    <div id="map" style="height: 500px; margin-top: 20px;"></div>
+
+    <!-- Include Leaflet JS for the map -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([20.0, 0.0], 2); // Center the map at the world view
+
+        // Add the OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Energy source data from the dataset
+        var energySources = [
+            { name: "Solar Farm Sahara", lat: 25.2854, lon: 13.1182, output: "1GW", status: "Online", country: "" },
+            { name: "Wind Farm North Sea", lat: 56.3447, lon: 3.3926, output: "800MW", status: "Online", country: "" },
+            { name: "Hydro Plant Three Gorges", lat: 30.8231, lon: 111.0034, output: "22.5GW", status: "Online", country: "" },
+            { name: "Solar Park Tengger", lat: 37.1893, lon: 106.8145, output: "1.5GW", status: "Online", country: "" },
+            { name: "Wind Farm Alta", lat: 34.9908, lon: -118.3241, output: "1.55GW", status: "Online", country: "" },
+            { name: "Geothermal Plant Geysers", lat: 38.7982, lon: -122.7828, output: "725MW", status: "Online", country: "" },
+            { name: "Wind Farm Hornsea", lat: 53.8563, lon: 1.6739, output: "1.2GW", status: "Online", country: "" },
+            { name: "Solar Plant Noor", lat: 30.9249, lon: -6.9351, output: "580MW", status: "Online", country: "" },
+            { name: "Wind Farm Walney", lat: 54.0733, lon: -3.4178, output: "659MW", status: "Online", country: "" },
+            { name: "Hydro Plant Itaipu", lat: -25.4075, lon: -54.5881, output: "14GW", status: "Online", country: "" },
+            { name: "Solar Farm Kamuthi", lat: 9.1517, lon: 78.6228, output: "648MW", status: "Online", country: "India" },
+            { name: "Wind Farm Gansu", lat: 40.0509, lon: 104.2861, output: "8GW", status: "Online", country: "China" },
+            { name: "Hydro Plant Belo Monte", lat: -3.0879, lon: -51.8034, output: "11.2GW", status: "Online", country: "Brazil" },
+            { name: "Geothermal Plant Olkaria", lat: -0.9053, lon: 36.2916, output: "700MW", status: "Online", country: "Kenya" },
+            { name: "Solar Plant Ivanpah", lat: 35.5313, lon: -115.4695, output: "392MW", status: "Online", country: "USA" },
+            { name: "Wind Farm Whitelee", lat: 55.6847, lon: -4.3503, output: "539MW", status: "Online", country: "UK" },
+            { name: "Hydro Plant Sayano-Shushenskaya", lat: 52.8217, lon: 91.3723, output: "6.4GW", status: "Online", country: "Russia" },
+            { name: "Geothermal Plant Hellisheidi", lat: 64.0409, lon: -21.4091, output: "303MW", status: "Online", country: "Iceland" },
+            { name: "Solar Park Pavagada", lat: 14.1278, lon: 77.2825, output: "2GW", status: "Online", country: "India" },
+            { name: "Wind Farm Horns Rev 2", lat: 55.5293, lon: 7.848, output: "209MW", status: "Online", country: "Denmark" },
+            { name: "Hydro Plant Kariba", lat: -16.516, lon: 28.761, output: "1.6GW", status: "Online", country: "Zambia/Zimbabwe" },
+            { name: "Geothermal Plant Larderello", lat: 43.2472, lon: 10.8762, output: "800MW", status: "Online", country: "Italy" },
+            { name: "Solar Plant De Aar", lat: -30.6497, lon: 23.9935, output: "175MW", status: "Online", country: "South Africa" },
+            { name: "Wind Farm Walney Extension", lat: 54.0776, lon: -3.4199, output: "659MW", status: "Online", country: "UK" },
+            { name: "Hydro Plant Aswan", lat: 23.9721, lon: 32.8772, output: "2.1GW", status: "Online", country: "Egypt" },
+            { name: "Geothermal Plant Cerro Prieto", lat: 32.4291, lon: -115.2167, output: "720MW", status: "Online", country: "Mexico" },
+            { name: "Solar Park Ouarzazate", lat: 30.9317, lon: -6.9378, output: "580MW", status: "Online", country: "Morocco" },
+            { name: "Wind Farm Thanet", lat: 51.4053, lon: 1.5182, output: "300MW", status: "Online", country: "UK" },
+            { name: "Hydro Plant Tucuruí", lat: -3.7658, lon: -49.6794, output: "8.37GW", status: "Online", country: "Brazil" },
+            { name: "Geothermal Plant Nesjavellir", lat: 64.1175, lon: -21.2983, output: "120MW", status: "Online", country: "Iceland" },
+            { name: "Solar Plant Longyangxia", lat: 36.0975, lon: 100.9985, output: "850MW", status: "Online", country: "China" },
+            { name: "Wind Farm Muppandal", lat: 8.1702, lon: 77.4931, output: "1.5GW", status: "Online", country: "India" },
+            { name: "Hydro Plant Guri", lat: 7.7674, lon: -63.0498, output: "10.2GW", status: "Online", country: "Venezuela" },
+            { name: "Geothermal Plant Ulubelu", lat: -5.0768, lon: 104.3721, output: "220MW", status: "Online", country: "Indonesia" },
+            { name: "Solar Park Bhadla", lat: 27.9116, lon: 71.3995, output: "2.25GW", status: "Online", country: "India" },
+            { name: "Wind Farm London Array", lat: 51.6113, lon: 1.4336, output: "630MW", status: "Online", country: "UK" },
+            { name: "Hydro Plant Churchill Falls", lat: 53.5269, lon: -64.1096, output: "5.43GW", status: "Online", country: "Canada" },
+            { name: "Geothermal Plant Cerro Pabellón", lat: -22.4036, lon: -68.9204, output: "48MW", status: "Online", country: "Chile" },
+            { name: "Solar Plant Mount Signal", lat: 32.6694, lon: -115.5142, output: "794MW", status: "Online", country: "USA" },
+            { name: "Wind Farm Gemini", lat: 53.9175, lon: 6.481, output: "600MW", status: "Online", country: "Netherlands" },
+            { name: "Hydro Plant Xiluodu", lat: 28.2763, lon: 104.7703, output: "13.86GW", status: "Online", country: "China" },
+            { name: "Geothermal Plant Menengai", lat: -0.1776, lon: 36.0703, output: "105MW", status: "Online", country: "Kenya" },
+            { name: "Solar Plant Ivanpah", lat: 35.5313, lon: -115.4695, output: "392MW", status: "Online", country: "USA" },
+            { name: "Wind Farm Shepherds Flat", lat: 45.7111, lon: -120.4531, output: "845MW", status: "Online", country: "USA" },
+            { name: "Hydro Plant Grand Coulee", lat: 47.9564, lon: -118.9812, output: "6.8GW", status: "Online", country: "USA" },
+            { name: "Geothermal Plant Salton Sea", lat: 33.3299, lon: -115.624, output: "340MW", status: "Online", country: "USA" }
+        ];
+
+        // Loop through the energy sources and add markers to the map
+        energySources.forEach(function(source) {
+            L.marker([source.lat, source.lon]).addTo(map)
+                .bindPopup("<b>" + source.name + "</b><br>" +
+                           "Output: " + source.output + "<br>" +
+                           "Status: " + source.status + "<br>" +
+                           "Country: " + source.country);
+        });
+    </script>
+</body>
+</html>
